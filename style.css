@@ -1,0 +1,67 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 500px;
+}
+
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 0;
+}
+
+.time-info {
+    text-align: center;
+    background: #eef2f5;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.time-info p {
+    margin: 5px 0;
+}
+
+.status-section h2 {
+    font-size: 1.2em;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 5px;
+    margin-top: 25px;
+}
+
+.person-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.person-list li {
+    background: #fdfdfd;
+    margin: 8px 0;
+    padding: 12px;
+    border-radius: 6px;
+    border-left: 5px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+#at-school-list li {
+    border-left-color: #2ecc71; /* Yeşil çizgi */
+}
+
+#not-at-school-list li {
+    border-left-color: #e74c3c; /* Kırmızı çizgi */
+}
