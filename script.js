@@ -61,8 +61,8 @@ function updateStatus() {
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const currentTimeStr = `${hours}:${minutes}`;
 
-    document.getElementById('current-day').innerText = `${dayNames[currentDay]}`;
-    document.getElementById('current-time').innerText = `${currentTimeStr}`;
+    // Üstteki saati tek bir rozet içinde temizce göster
+    document.getElementById('datetime-display').innerText = `${dayNames[currentDay]} • ${currentTimeStr}`;
 
     const atSchoolList = document.getElementById('at-school-list');
     const notAtSchoolList = document.getElementById('not-at-school-list');
@@ -85,31 +85,85 @@ function updateStatus() {
             }
         }
 
-        const li = document.createElement('li');
+        const card = document.createElement('div');
+        card.className = isAtSchool ? 'person-card' : 'person-card offline-card';
+        
+        // Karta tıklandığında pop-up (modal) açma özelliği
+        card.onclick = () => showScheduleModal(person);
+
+        let cardInnerHTML = `
+            <div class="card-top">
+                <span class="person-name">${person.name}</span>
+                <span class="click-hint">Programı Gör ›</span>
+            </div>
+        `;
 
         if (isAtSchool) {
-            // Aktif, derste olan kişi tasarımı
-            li.className = 'person-card';
-            li.innerHTML = `
-                <div class="person-header">
-                    <span class="person-name">${person.name}</span>
-                </div>
+            cardInnerHTML += `
                 <div class="lesson-info">
-                    <span>📚</span> <span><strong>Ders:</strong> ${currentLesson}</span>
+                    <span style="font-size: 16px;">📖</span> ${currentLesson}
                 </div>
             `;
-            atSchoolList.appendChild(li);
+            card.innerHTML = cardInnerHTML;
+            atSchoolList.appendChild(card);
         } else {
-            // Pasif, okulda olmayan kişi tasarımı
-            li.className = 'person-card offline-card';
-            li.innerHTML = `
-                <div class="person-header">
-                    <span class="person-name">${person.name}</span>
-                </div>
-            `;
-            notAtSchoolList.appendChild(li);
+            card.innerHTML = cardInnerHTML;
+            notAtSchoolList.appendChild(card);
         }
     });
+}
+
+// Modal (Pop-up) Kontrol Fonksiyonları
+const modal = document.getElementById('schedule-modal');
+const closeModalBtn = document.getElementById('close-modal');
+
+function showScheduleModal(person) {
+    document.getElementById('modal-name').innerText = person.name;
+    const scheduleContainer = document.getElementById('modal-schedule-list');
+    scheduleContainer.innerHTML = '';
+
+    let hasAnyClass = false;
+
+    // Hafta içi günleri döngüye al (Pazartesi=1, Cuma=5)
+    for(let i=1; i<=5; i++) {
+        if(person.schedule[i] && person.schedule[i].length > 0) {
+            hasAnyClass = true;
+            
+            // Dersleri başlangıç saatine göre sırala
+            const sortedClasses = person.schedule[i].sort((a, b) => a.start.localeCompare(b.start));
+            
+            let dayHTML = `
+                <div class="schedule-day">
+                    <div class="day-title">${dayNames[i]}</div>
+            `;
+            
+            sortedClasses.forEach(cls => {
+                dayHTML += `
+                    <div class="day-class">
+                        <span class="class-time">${cls.start} - ${cls.end}</span>
+                        <span class="class-name">${cls.lesson}</span>
+                    </div>
+                `;
+            });
+
+            dayHTML += `</div>`;
+            scheduleContainer.innerHTML += dayHTML;
+        }
+    }
+
+    if(!hasAnyClass) {
+        scheduleContainer.innerHTML = '<div class="no-class">Sisteme kayıtlı ders bulunamadı.</div>';
+    }
+
+    modal.classList.add('active');
+}
+
+// Çarpıya veya arka plana tıklayınca modalı kapat
+closeModalBtn.onclick = () => modal.classList.remove('active');
+window.onclick = (event) => {
+    if (event.target == modal) {
+        modal.classList.remove('active');
+    }
 }
 
 fetchScheduleData();
