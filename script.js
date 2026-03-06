@@ -61,8 +61,8 @@ function updateStatus() {
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const currentTimeStr = `${hours}:${minutes}`;
 
-    document.getElementById('current-day').innerText = `Gün: ${dayNames[currentDay]}`;
-    document.getElementById('current-time').innerText = `Saat: ${currentTimeStr}`;
+    document.getElementById('current-day').innerText = `${dayNames[currentDay]}`;
+    document.getElementById('current-time').innerText = `${currentTimeStr}`;
 
     const atSchoolList = document.getElementById('at-school-list');
     const notAtSchoolList = document.getElementById('not-at-school-list');
@@ -88,14 +88,29 @@ function updateStatus() {
         const li = document.createElement('li');
 
         if (isAtSchool) {
-            li.innerHTML = `<strong>${person.name}</strong> <br> 📚 Ders: ${currentLesson}`;
+            // Aktif, derste olan kişi tasarımı
+            li.className = 'person-card';
+            li.innerHTML = `
+                <div class="person-header">
+                    <span class="person-name">${person.name}</span>
+                </div>
+                <div class="lesson-info">
+                    <span>📚</span> <span><strong>Ders:</strong> ${currentLesson}</span>
+                </div>
+            `;
             atSchoolList.appendChild(li);
         } else {
-            li.innerText = person.name;
+            // Pasif, okulda olmayan kişi tasarımı
+            li.className = 'person-card offline-card';
+            li.innerHTML = `
+                <div class="person-header">
+                    <span class="person-name">${person.name}</span>
+                </div>
+            `;
             notAtSchoolList.appendChild(li);
         }
     });
 }
 
 fetchScheduleData();
-setInterval(fetchScheduleData, 60000); // 1 dakikada bir günceller
+setInterval(fetchScheduleData, 60000);

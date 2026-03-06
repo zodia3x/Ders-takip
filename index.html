@@ -4,25 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kim Okulda?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>📍 Kim Okulda?</h1>
-        
-        <div class="time-info">
-            <p id="current-day">Gün: Yükleniyor...</p>
-            <p id="current-time">Saat: Yükleniyor...</p>
-        </div>
+    <div class="app-wrapper">
+        <div class="container">
+            <header>
+                <h1>Kim Okulda?</h1>
+                <p class="subtitle">Anlık Ders Takip Radarı</p>
+            </header>
+            
+            <div class="time-widget">
+                <div class="time-box">
+                    <span class="label">🗓️ GÜN</span>
+                    <strong id="current-day">Yükleniyor...</strong>
+                </div>
+                <div class="time-box">
+                    <span class="label">⏰ SAAT</span>
+                    <strong id="current-time">--:--</strong>
+                </div>
+            </div>
 
-        <div class="status-section">
-            <h2>🟢 Şu An Okulda Olanlar</h2>
-            <ul id="at-school-list" class="person-list"></ul>
-        </div>
+            <div class="status-section">
+                <div class="section-header">
+                    <div class="pulse-dot green"></div>
+                    <h2>Okulda Olanlar</h2>
+                </div>
+                <ul id="at-school-list" class="person-list"></ul>
+            </div>
 
-        <div class="status-section">
-            <h2>🔴 Şu An Okulda Olmayanlar</h2>
-            <ul id="not-at-school-list" class="person-list"></ul>
+            <div class="status-section mt-4">
+                <div class="section-header">
+                    <div class="static-dot red"></div>
+                    <h2>Okulda Olmayanlar</h2>
+                </div>
+                <ul id="not-at-school-list" class="person-list"></ul>
+            </div>
+            
+            <footer>
+                <p>Designed & Coded by <span class="brand">zodia3x</span></p>
+            </footer>
         </div>
     </div>
 
